@@ -1,0 +1,32 @@
+Manifest-Version: 1.0
+Group-Id: io.jenkins.plugins
+Short-Name: carbonetes-serverless-container-scanning-and-policy-compli
+ ance
+Long-Name: Carbonetes Serverless Container Scanning and Policy Complia
+ nce
+Url: https://github.com/jenkinsci/carbonetes-serverless-container-scan
+ ning-and-policy-compliance-plugin
+Minimum-Java-Version: 1.8
+Plugin-Version: 1.0-SNAPSHOT (private-fbe37b77-moisesdelacruz)
+Hudson-Version: 2.176.1
+Jenkins-Version: 2.176.1
+Plugin-Dependencies: credentials:2.1.16
+Plugin-Developers: Carbonetes Engineering:carbonetes:eng@carbonetes.com
+Plugin-License-Name: MIT License
+Plugin-License-Url: https://opensource.org/licenses/MIT
+Plugin-ScmUrl: https://github.com/jenkinsci/carbonetes-serverless-cont
+ ainer-scanning-and-policy-compliance-plugin
+Libraries: /Users/Shared/ews/plugins/carbonetes-jenkins-plug-in/src/ma
+ in/resources,/Users/Shared/ews/plugins/carbonetes-jenkins-plug-in/tar
+ get/classes,/Users/moisesdelacruz/.m2/repository/commons-codec/common
+ s-codec/1.12/commons-codec-1.12.jar,/Users/moisesdelacruz/.m2/reposit
+ ory/commons-io/commons-io/2.6/commons-io-2.6.jar,/Users/moisesdelacru
+ z/.m2/repository/org/apache/httpcomponents/httpclient/4.5.9/httpclien
+ t-4.5.9.jar,/Users/moisesdelacruz/.m2/repository/org/apache/httpcompo
+ nents/httpcore/4.4.11/httpcore-4.4.11.jar,/Users/moisesdelacruz/.m2/r
+ epository/org/codehaus/jackson/jackson-core-asl/1.9.13/jackson-core-a
+ sl-1.9.13.jar,/Users/moisesdelacruz/.m2/repository/org/codehaus/jacks
+ on/jackson-mapper-asl/1.9.13/jackson-mapper-asl-1.9.13.jar
+Resource-Path: /Users/Shared/ews/plugins/carbonetes-jenkins-plug-in/sr
+ c/main/webapp
+

@@ -1,0 +1,37 @@
+<?xml version='1.1' encoding='UTF-8'?>
+<build>
+  <actions>
+    <hudson.model.CauseAction>
+      <causeBag class="linked-hash-map">
+        <entry>
+          <hudson.model.Cause_-UserIdCause/>
+          <int>1</int>
+        </entry>
+      </causeBag>
+    </hudson.model.CauseAction>
+    <io.jenkins.plugins.carbonetes.CarbonetesAction plugin="carbonetes-serverless-container-scanning-and-policy-compliance@1.0-SNAPSHOT">
+      <build class="build" reference="../../.."/>
+      <policyEvaluationResult>{&quot;policyResult&quot;:&quot;PASSED&quot;,&quot;finalAction&quot;:&quot;GO&quot;,&quot;policyEvaluationResults&quot;:[]}</policyEvaluationResult>
+      <vulnerabilitiesResult>{&quot;engineA&quot;:&quot;analyzed&quot;,&quot;engineC&quot;:&quot;analyzed&quot;,&quot;engineT&quot;:&quot;analysis_failed&quot;,&quot;analyzed_at&quot;:&quot;2020-11-05T20:23:26Z&quot;,&quot;created_at&quot;:&quot;2020-11-05T20:23:20Z&quot;,&quot;imageDigest&quot;:&quot;sha256:9bcb135d27037b7a5474b8a1ffbe0cf3513e850cbe9b458e54b24a07470047f0&quot;,&quot;image_status&quot;:&quot;active&quot;,&quot;image_type&quot;:&quot;docker&quot;,&quot;last_updated&quot;:&quot;2020-11-05T20:23:26Z&quot;,&quot;parentDigest&quot;:&quot;sha256:9bcb135d27037b7a5474b8a1ffbe0cf3513e850cbe9b458e54b24a07470047f0&quot;,&quot;isScanOnly&quot;:&quot;Y&quot;,&quot;status&quot;:null,&quot;summary&quot;:null,&quot;vulnerabilities&quot;:[],&quot;inquired&quot;:true}</vulnerabilitiesResult>
+      <scaResult>{&quot;analysis&quot;:{&quot;whenAdded&quot;:1604607799,&quot;whenUpdated&quot;:null,&quot;uuid&quot;:&quot;ad1cad2c-f627-48de-a150-bba3ae6e52d6&quot;,&quot;status&quot;:&quot;analyzed&quot;,&quot;totalDependency&quot;:0,&quot;vulnerableDependency&quot;:0,&quot;vulnerabilityFound&quot;:0,&quot;vulnerabilitySuppress&quot;:0,&quot;critical&quot;:0,&quot;high&quot;:0,&quot;medium&quot;:0,&quot;low&quot;:0,&quot;duration&quot;:6.0072913,&quot;dependencies&quot;:[]}}</scaResult>
+      <malwareResult>{&quot;status&quot;:&quot;analyzed&quot;,&quot;scanResult&quot;:{&quot;scanResultUuid&quot;:&quot;2c3d7f61-3cc8-4f29-9f64-23b631a1c83c&quot;,&quot;elapsed_time&quot;:41.979,&quot;scanned_files&quot;:2,&quot;scanned_directories&quot;:1,&quot;data_read&quot;:47.36,&quot;data_scanned&quot;:0.0,&quot;infectedFiles&quot;:[]},&quot;id&quot;:&quot;8c480b11-3c14-488f-affd-3cbfedc87b1c&quot;}</malwareResult>
+      <licenseFinderResult>{&quot;status&quot;:&quot;analyzed&quot;,&quot;imageDependencies&quot;:[],&quot;whenAdded&quot;:1604607799}</licenseFinderResult>
+      <secretsAnalysisResult>{&quot;whenAdded&quot;:1604607799,&quot;whenUpdated&quot;:1604607800,&quot;secretScanUuid&quot;:&quot;9558c01c-a22c-444e-9a1b-e628df310d28&quot;,&quot;fileNameRegex&quot;:&quot;\\/usr\\/src\\.*&quot;,&quot;totalFileMatch&quot;:0,&quot;status&quot;:&quot;analyzed&quot;,&quot;secrets&quot;:[]}</secretsAnalysisResult>
+      <gateAction>GO</gateAction>
+      <fullTag>jaegertracing/allinone:latest</fullTag>
+      <policyBundleId></policyBundleId>
+    </io.jenkins.plugins.carbonetes.CarbonetesAction>
+  </actions>
+  <queueId>17</queueId>
+  <timestamp>1604607791176</timestamp>
+  <startTime>1604607791180</startTime>
+  <result>SUCCESS</result>
+  <duration>53190</duration>
+  <charset>UTF-8</charset>
+  <keepLog>false</keepLog>
+  <builtOn></builtOn>
+  <workspace>/Users/Shared/ews/plugins/carbonetes-jenkins-plug-in/work/workspace/plugin</workspace>
+  <hudsonVersion>2.176.1</hudsonVersion>
+  <scm class="hudson.scm.NullChangeLogParser"/>
+  <culprits class="com.google.common.collect.EmptyImmutableSortedSet"/>
+</build>

@@ -1,0 +1,27 @@
+<?xml version='1.1' encoding='UTF-8'?>
+<project>
+  <actions/>
+  <description></description>
+  <keepDependencies>false</keepDependencies>
+  <properties/>
+  <scm class="hudson.scm.NullSCM"/>
+  <canRoam>true</canRoam>
+  <disabled>false</disabled>
+  <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
+  <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
+  <triggers/>
+  <concurrentBuild>false</concurrentBuild>
+  <builders>
+    <io.jenkins.plugins.carbonetes.CarbonetesBuilder plugin="carbonetes-serverless-container-scanning-and-policy-compliance@1.0-SNAPSHOT">
+      <engineTimeout>500</engineTimeout>
+      <failBuildOnPluginError>true</failBuildOnPluginError>
+      <failBuildOnPolicyEvaluationFailResult>true</failBuildOnPolicyEvaluationFailResult>
+      <policyBundleID></policyBundleID>
+      <registryURI>367390716521.dkr.ecr.us-west-2.amazonaws.com</registryURI>
+      <image>jaegertracing/allinone:latest</image>
+      <credentialsId>f0b288c7-f085-48ff-993e-0ee4da21f6ca</credentialsId>
+    </io.jenkins.plugins.carbonetes.CarbonetesBuilder>
+  </builders>
+  <publishers/>
+  <buildWrappers/>
+</project>

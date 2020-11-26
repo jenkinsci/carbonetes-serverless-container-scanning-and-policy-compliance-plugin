@@ -1,0 +1,16 @@
+Started by user unknown or anonymous
+Running as SYSTEM
+Building in workspace /Users/Shared/ews/plugins/carbonetes-jenkins-plug-in/work/workspace/plugin
+Engine Timeout: 500
+Fail Build on Plugin Error: true
+Fail Build on Policy Evaluation Failed Result: true
+Registry URI: 395457784920.dkr.ecr.us-west-2.amazonaws.com
+Image Name: sos-ui
+Image Tag: latest
+Sending Comprehensive Analysis Request...
+Performing Comprehensive Analysis...
+Analysis Finished
+Policy Evaluation Result
+Policy Result : PASS
+Final Action : GO
+Finished: SUCCESS

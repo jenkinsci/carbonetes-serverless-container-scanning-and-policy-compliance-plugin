@@ -1,0 +1,39 @@
+<?jelly escape-by-default='true'?>
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout"
+         xmlns:t="/lib/hudson" xmlns:f="/lib/form" xmlns:c="/lib/credentials">
+	
+	<f:section title="Carbonetes Build Options">
+	
+		<f:entry title="Registry URI" field="registryURI" help="/plugin/carbonetes-serverless-container-scanning-and-policy-compliance/help/registry-uri.html">
+			<f:textbox/>
+		</f:entry>
+		
+		<f:entry title="Carbonetes Analysis Timeout" field="engineTimeout" help="/plugin/carbonetes-serverless-container-scanning-and-policy-compliance/help/carbonetes-engine-timeout.html.html">
+			<f:textbox default = "${descriptor.DEFAULT_ENGINE_TIMEOUT}"/>
+		</f:entry>	
+		
+		<f:entry title="Fail Build on Policy Evaluation FAIL result" field="failBuildOnPolicyEvaluationFinallResult" help="/plugin/carbonetes-serverless-container-scanning-and-policy-compliance/help/fail-on-policy-evaluation.html">
+			<f:checkbox name = "failBuildOnPolicyEvaluationFailResult" default="${descriptor.DEFAULT_FAIL_ON_POLICY_EVALUATION}"/>
+		</f:entry>	
+		
+		<f:entry title="Fail Build on Plugin Error" field="failBuildOnPluginError" help="/plugin/carbonetes-serverless-container-scanning-and-policy-compliance/help/fail-on-plugin-error.html">
+			<f:checkbox name = "failBuildOnPluginError" default="${descriptor.DEFAULT_FAIL_ON_PLUGIN_ERROR}"/>
+		</f:entry>	
+		
+		<f:entry title="Carbonetes Engine Policy Bundle ID" field="policyBundleID" help="/plugin/carbonetes-serverless-container-scanning-and-policy-compliance/help/policy-bundle-id.html">
+			<f:textbox default = ""/>
+		</f:entry>
+		
+		<f:entry title="Repository Name and Image Tag" field="image" help="/plugin/carbonetes-serverless-container-scanning-and-policy-compliance/help/repository-name-tag.html">
+			<f:textbox default = "{repository-name:image-tag}"/>
+		</f:entry>	
+		
+	</f:section>
+		
+	<f:section title="Carbonetes Engine Credentials">
+		  <f:entry field="credentialsId" title="Carbonetes Engine Credentials">
+	        <c:select/>
+	      </f:entry>
+	</f:section>
+	
+</j:jelly>

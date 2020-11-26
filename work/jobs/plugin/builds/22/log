@@ -1,0 +1,14 @@
+Started by user unknown or anonymous
+Running as SYSTEM
+Building in workspace /Users/Shared/ews/plugins/carbonetes-jenkins-plug-in/work/workspace/plugin
+Engine Timeout: 500
+Fail Build on Plugin Error: true
+Fail Build on Policy Evaluation Failed Result: true
+Registry URI: 395457784920.dkr.ecr.us-west-2.amazonaws.com
+Image Name: sos-lookup-api
+Image Tag: latest
+Performing Comprehensive Analysis...
+ERROR: Carbonetes-plugin marked the build as failed due to error(s). 
+Request Returned :500 Internal Server Error
+Request URI: https://api.carbonetes.com/analyze
+Finished: FAILURE
