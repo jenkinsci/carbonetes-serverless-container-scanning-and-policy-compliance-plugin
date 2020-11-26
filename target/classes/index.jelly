@@ -1,7 +1,0 @@
-<?jelly escape-by-default='true'?>
-<div>
-  Seamlessly integrates comprehensive container analysis directly into your CI/CD pipeline. 
- 	Upon committing your code, the Jenkins plug-in automatically initiates a comprehensive container analysis scan. 
- 	The results of that scan are compared to the applicable policy to determine whether the container should build or not. 
- 	The insight from the analysis and the policy evaluation are embedded right inside Jenkins making it easy to find and resolve issues without ever leaving Jenkins.
-</div>
