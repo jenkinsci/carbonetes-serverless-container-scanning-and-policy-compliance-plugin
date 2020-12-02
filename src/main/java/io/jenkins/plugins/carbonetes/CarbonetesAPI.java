@@ -6,10 +6,10 @@ import java.util.logging.Logger;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.util.EntityUtils;
-import org.codehaus.jackson.JsonNode;
-import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.node.ArrayNode;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.google.common.base.Strings;
 
 import hudson.AbortException;
@@ -113,7 +113,7 @@ public class CarbonetesAPI extends AbstractAPIWorker {
 		jsonBody.put(Constants.JSON_FIELD_REGISTRY_URI, configuration.getRegistryUri());
 		jsonBody.put(Constants.JSON_FIELD_REPO_IMAGE_TAG, configuration.getImage());
 		jsonBody.put(Constants.JSON_FIELD_USERNAME, configuration.getUsername());
-		jsonBody.put(Constants.JSON_FIELD_PASSWORD, configuration.getPassword());
+		jsonBody.put(Constants.JSON_FIELD_PASSWORD, configuration.getSecretPassword().getPlainText());
 		jsonBody.put(Constants.JSON_FIELD_TIMEOUT, configuration.getEngineTimeout());
 		jsonBody.put(Constants.JSON_FIELD_POlICY_BUNDlE_UUID, configuration.getPolicyBundleID());
 
@@ -153,8 +153,8 @@ public class CarbonetesAPI extends AbstractAPIWorker {
 			        .findPath(Constants.JSON_FIELD_POlICY_BUNDlE_UUID).asText();
 		}
 
-		ArrayNode policyEvaluationResult = mapper
-		        .readValue(completeAnalysisResponse.findPath(Constants.JSON_FIELD_REPO_IMAGE_ENV), ArrayNode.class);
+		ArrayNode policyEvaluationResult = mapper.readValue(
+		        completeAnalysisResponse.findPath(Constants.JSON_FIELD_REPO_IMAGE_ENV).toString(), ArrayNode.class);
 
 		policyResult	= ACTION.fromName(policyEvaluationResult.findPath(Constants.JSON_FIELD_POLICY_EVALUATION)
 		        .findPath(Constants.JSON_FIELD_POLICY_RESULT).asText());
@@ -202,6 +202,7 @@ public class CarbonetesAPI extends AbstractAPIWorker {
 
 			if (statusCode == Constants.STATUS_CODE_SUCCESS) {
 				completeAnalysisResponse = mapper.readTree(responseBody);
+				listener.getLogger().println(completeAnalysisResponse);
 			} else {
 				if (configuration.isFailBuildOnPluginError()) {
 					throw new AbortException(Constants.ERROR_MESSAGE + "Request Returned :"

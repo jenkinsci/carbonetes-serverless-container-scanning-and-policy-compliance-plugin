@@ -38,8 +38,6 @@ public class CarbonetesBuilder extends Builder implements SimpleBuildStep {
 	private static final Logger	logger	= Logger.getLogger(CarbonetesBuilder.class.getName());
 
 	private String				name;
-	private String				username;
-	private String				password;
 	private int					engineTimeout;
 	private boolean				failBuildOnPluginError;
 	private boolean				failBuildOnPolicyEvaluationFailResult;
@@ -103,24 +101,6 @@ public class CarbonetesBuilder extends Builder implements SimpleBuildStep {
 		this.engineTimeout = engineTimeout;
 	}
 
-	public String getUsername() {
-		return username;
-	}
-
-	@DataBoundSetter
-	public void setUsername(String username) {
-		this.username = username;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	@DataBoundSetter
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
 	@DataBoundSetter
 	public void setImage(String image) {
 		this.image = image;
@@ -146,8 +126,8 @@ public class CarbonetesBuilder extends Builder implements SimpleBuildStep {
 	public void perform(Run<?, ?> run, FilePath workspace, Launcher launcher, TaskListener listener)
 	        throws AbortException {
 
-		Configuration		configuration		= new Configuration(name, username, password, engineTimeout,
-		        failBuildOnPluginError, failBuildOnPolicyEvaluationFailResult, policyBundleID, registryURI, image);
+		Configuration		configuration		= new Configuration(name, engineTimeout, failBuildOnPluginError,
+		        failBuildOnPolicyEvaluationFailResult, policyBundleID, registryURI, image);
 
 		CarbonetesAction	carbonetesAction	= null;
 
@@ -180,7 +160,7 @@ public class CarbonetesBuilder extends Builder implements SimpleBuildStep {
 
 				if (null != creds) {
 					configuration.setUsername(creds.getUsername());
-					configuration.setPassword(creds.getPassword().getPlainText());
+					configuration.setSecretPassword(creds.getPassword());
 				} else {
 					if (failBuildOnPluginError) {
 						throw new AbortException(Constants.ERROR_MESSAGE + "Cannot find Jenkins credentials by ID: \'"

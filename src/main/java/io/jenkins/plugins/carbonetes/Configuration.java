@@ -1,6 +1,7 @@
 package io.jenkins.plugins.carbonetes;
 
 import hudson.AbortException;
+import hudson.util.Secret;
 
 /**
  * Contains Plugin Configuration Parameters
@@ -8,8 +9,6 @@ import hudson.AbortException;
 public class Configuration {
 
 	private String	name;
-	private String	username;
-	private String	password;
 	private int		engineTimeout;
 	private boolean	failBuildOnPluginError;
 	private boolean	failBuildOnPolicyEvaluationFinallResult;
@@ -17,6 +16,8 @@ public class Configuration {
 	private String	registryUri;
 	private String	fulltag;
 	private String	image;
+	private Secret	secretPassword;
+	private String	username;
 
 	public String getImage() {
 		return image;
@@ -115,20 +116,17 @@ public class Configuration {
 		this.username = username;
 	}
 
-	public String getPassword() {
-		return password;
+	public Secret getSecretPassword() {
+		return secretPassword;
 	}
 
-	public void setPassword(String password) {
-		this.password = password;
+	public void setSecretPassword(Secret secretPassword) {
+		this.secretPassword = secretPassword;
 	}
 
-	public Configuration(String name, String username, String password, int engineTimeout,
-	        boolean failBuildOnPluginError, boolean failBuildOnPolicyEvaluationFinallResult, String policyBundleID,
-	        String registryUri, String image) {
+	public Configuration(String name, int engineTimeout, boolean failBuildOnPluginError,
+	        boolean failBuildOnPolicyEvaluationFinallResult, String policyBundleID, String registryUri, String image) {
 		this.name										= name;
-		this.username									= username;
-		this.password									= password;
 		this.engineTimeout								= engineTimeout;
 		this.failBuildOnPluginError						= failBuildOnPluginError;
 		this.failBuildOnPolicyEvaluationFinallResult	= failBuildOnPolicyEvaluationFinallResult;
