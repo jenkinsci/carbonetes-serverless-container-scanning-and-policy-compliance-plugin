@@ -8,7 +8,6 @@ import org.apache.http.client.protocol.HttpClientContext;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 
-import hudson.AbortException;
 import hudson.model.TaskListener;
 
 /**
@@ -28,7 +27,6 @@ public abstract class AbstractAPIWorker {
 	/**
 	 * Initialization for REST API call
 	 * 
-	 * @throws AbortException
 	 */
 	protected void initializeAPICall() {
 		httpclient	= HttpClients.custom()

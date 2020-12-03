@@ -102,7 +102,7 @@ public class CarbonetesAPI extends AbstractAPIWorker {
 	/**
 	 * Performs Comprehensive Analysis
 	 * 
-	 * @throws AbortException
+	 * @throws Exception
 	 */
 	public void performComprehensiveAnalysis() throws Exception {
 
