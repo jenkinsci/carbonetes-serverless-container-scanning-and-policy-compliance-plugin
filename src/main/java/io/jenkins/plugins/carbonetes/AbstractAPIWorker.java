@@ -23,6 +23,7 @@ public abstract class AbstractAPIWorker {
 	protected CloseableHttpClient	httpclient;
 	protected Configuration			configuration;
 	protected HttpPost				httpPost;
+	protected String				message;
 
 	/**
 	 * Initialization for REST API call
@@ -32,5 +33,18 @@ public abstract class AbstractAPIWorker {
 		httpclient	= HttpClients.custom()
 		        .setDefaultRequestConfig(RequestConfig.custom().setCookieSpec(CookieSpecs.STANDARD).build()).build();
 		context		= HttpClientContext.create();
+	}
+	
+	/**
+	 * Assigns readable error message from non successful responses.
+	 */
+	protected void setErrorMessageFromResponse() {
+		if (responseBody.equalsIgnoreCase(Constants.LICENSE_EXPIRED)) {
+			message = Constants.LICENSE_EXPIRED_MESSAGE;
+		} else if (responseBody.equalsIgnoreCase(Constants.INSUFFICIENT_LICENSE)) {
+			message = Constants.INSUFFICIENT_LICENSE_MESSAGE;
+		} else if (responseBody.equalsIgnoreCase(Constants.ACCOUNT_CONFLICT)) {
+			message = Constants.ACCOUNT_CONFLICT_MESSAGE;
+		}
 	}
 }

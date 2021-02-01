@@ -45,4 +45,12 @@ public class Constants {
 	public static final String	ANALYSIS_STATUS_FAILED			= "failed";
 	public static final String	ANALYSIS_STATUS_FAIL			= "fail";
 	public static final String	JSON_CONTENT_TYPE				= "application/json";
+	// Readable error messages from non successful responses
+	public static final String  LICENSE_EXPIRED				    = "License has already expired";
+	public static final String  LICENSE_EXPIRED_MESSAGE 		= "Carbonetes License Expired. \n Your contract licenses has expired. Please configure or renew your AWS Contract Licenses to successfully login your account.";
+	public static final String  INSUFFICIENT_LICENSE 			= "Insufficent license count";
+	public static final String  INSUFFICIENT_LICENSE_MESSAGE 	= "Insufficient Carbonetes License(s). \n Your contract license is insufficient for your current users. Please configure your AWS Contract Licenses to successfully login your account.";
+	public static final String  ACCOUNT_CONFLICT  				= "Account not found";
+	public static final String  ACCOUNT_CONFLICT_MESSAGE  		= "AWS Customer ID Conflict. \n Your Customer ID is associated to a different company. Please check your account or contact your Administrator to successfully save or update your AWS Contract Licenses.";
+	
 }

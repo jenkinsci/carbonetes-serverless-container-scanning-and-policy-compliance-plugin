@@ -129,19 +129,24 @@ public class CarbonetesAPI extends AbstractAPIWorker {
 		response		= httpclient.execute(httpPost, context);
 		statusCode		= response.getStatusLine().getStatusCode();
 		responseBody	= EntityUtils.toString(response.getEntity());
-
+		
 		if (statusCode == Constants.STATUS_CODE_SUCCESS) {
 			JsonNode requestBodyForResultRequest = mapper.readTree(responseBody);
 			getResult(requestBodyForResultRequest);
 		} else {
+			this.setErrorMessageFromResponse();
 			if (configuration.isFailBuildOnPluginError()) {
-				throw new AbortException(Constants.ERROR_MESSAGE + "Request Returned :"
-				        + response.getStatusLine().getStatusCode() + " " + response.getStatusLine().getReasonPhrase()
-				        + "\n" + "Request URI: " + httpPost.getURI());
+				throw new AbortException(Constants.ERROR_MESSAGE 
+						+ "Request Returned :" 	 + response.getStatusLine().getStatusCode() 
+						+ " " + response.getStatusLine().getReasonPhrase()
+				        + "\n" + "Request URI: " + httpPost.getURI() 
+				        + "\n" + "Message: " 	 + message);
 			} else {
-				throw new AbortException(Constants.PLUGIN_ERROR_IGNORED + "Request Returned :"
-				        + response.getStatusLine().getStatusCode() + " " + response.getStatusLine().getReasonPhrase()
-				        + "\n" + "Request URI: " + httpPost.getURI());
+				throw new AbortException(Constants.PLUGIN_ERROR_IGNORED 
+						+ "Request Returned :" 	 + response.getStatusLine().getStatusCode() 
+						+ " " + response.getStatusLine().getReasonPhrase()
+				        + "\n" + "Request URI: " + httpPost.getURI()  
+				        + "\n" + "Message: " 	 + message);
 			}
 		}
 
@@ -164,6 +169,8 @@ public class CarbonetesAPI extends AbstractAPIWorker {
 		listener.getLogger().println("Policy Result : " + policyResult);
 		listener.getLogger().println("Final Action : " + finalAction);
 
+		resultLoaded = true;
+		
 		if (configuration.isFailBuildOnPolicyEvaluationFinalResult()
 		        && (policyResult.toString().equalsIgnoreCase(Constants.ANALYSIS_STATUS_FAILED)
 		                || policyResult.toString().equalsIgnoreCase(Constants.ANALYSIS_STATUS_FAIL))) {
@@ -174,8 +181,6 @@ public class CarbonetesAPI extends AbstractAPIWorker {
 				throw new AbortException(Constants.POLICY_EVALUATION_IGNORED);
 			}
 		}
-
-		resultLoaded = true;
 
 	}
 
@@ -202,16 +207,19 @@ public class CarbonetesAPI extends AbstractAPIWorker {
 
 			if (statusCode == Constants.STATUS_CODE_SUCCESS) {
 				completeAnalysisResponse = mapper.readTree(responseBody);
-				listener.getLogger().println(completeAnalysisResponse);
 			} else {
 				if (configuration.isFailBuildOnPluginError()) {
-					throw new AbortException(Constants.ERROR_MESSAGE + "Request Returned :"
-					        + response.getStatusLine().getStatusCode() + " "
-					        + response.getStatusLine().getReasonPhrase() + "\n" + "Request URI: " + httpPost.getURI());
+					throw new AbortException(Constants.ERROR_MESSAGE 
+							+ "Request Returned :"   + response.getStatusLine().getStatusCode() 
+							+ " "  + response.getStatusLine().getReasonPhrase()
+							+ "\n" + "Request URI: " + httpPost.getURI()  
+							+ "\n" + "Message: "    + responseBody);
 				} else {
-					throw new AbortException(Constants.PLUGIN_ERROR_IGNORED + "Request Returned :"
-					        + response.getStatusLine().getStatusCode() + " "
-					        + response.getStatusLine().getReasonPhrase() + "\n" + "Request URI: " + httpPost.getURI());
+					throw new AbortException(Constants.PLUGIN_ERROR_IGNORED 
+							+ "Request Returned :"   + response.getStatusLine().getStatusCode() 
+							+ " "  + response.getStatusLine().getReasonPhrase()
+							+ "\n" + "Request URI: " + httpPost.getURI()  
+							+ "\n" + "Message: " 	 + responseBody);
 				}
 			}
 
