@@ -24,28 +24,28 @@
                     background-color="#0e7984"
                     dark=""
                     >
-                        <v-tab>
+                        <v-tab v-if="pr.policyEvaluationResult">
                             <v-card-text>Policy Evaluation</v-card-text>
                         </v-tab>
-                        <v-tab>
+                        <v-tab v-if="pr.vulnerabilityResult">
                             <v-card-text>Vulnerability Analysis</v-card-text>
                         </v-tab>
-                        <v-tab>
+                        <v-tab v-if="pr.scaResult">
                             <v-card-text>Software Composition Analysis</v-card-text>
                         </v-tab>
-                        <v-tab>
+                        <v-tab v-if="pr.malwareResult">
                             <v-card-text>Malware Analysis</v-card-text>
                         </v-tab>
-                        <v-tab>
+                        <v-tab v-if="pr.secretsResult">
                             <v-card-text>Secrets Analysis</v-card-text>
                         </v-tab>
-                        <v-tab>
+                        <v-tab v-if="pr.licenseResult">
                             <v-card-text>License Finder Analysis</v-card-text>
                         </v-tab>
 
                         <v-tabs-items
                         v-model="pr.tab">
-                            <v-tab-item>
+                            <v-tab-item v-if="pr.policyEvaluationResult">
                                 <v-card class="mx-auto" outlined="">
                                     <v-container>
                                         <div class="row">
@@ -126,7 +126,7 @@
                                 </v-card>
                             </v-tab-item>
 
-                            <v-tab-item>
+                            <v-tab-item v-if="pr.vulnerabilityResult">
                                 <v-card class="mx-auto" outlined="">	
                                     <v-container>
                                     <v-card-title> 
@@ -210,7 +210,7 @@
                                 </v-card>	
                             </v-tab-item>
 
-                            <v-tab-item>
+                            <v-tab-item v-if="pr.scaResult">
                                 <v-card class="mx-auto" outlined="">
                                     <v-container>                                  
                                         <div class="row">
@@ -304,7 +304,7 @@
                                 </v-card>
                             </v-tab-item>
 
-                            <v-tab-item>
+                            <v-tab-item v-if="pr.malwareResult">
                                 <div v-if="pMalwareResult.scanResult">
                                     <div v-if="pMalwareResult.scanResult.infectedFiles.length > 0">
                                     <v-data-table
@@ -349,7 +349,7 @@
                                 </div>
                             </v-tab-item>
 
-                            <v-tab-item>
+                            <v-tab-item v-if="pr.secretsResult">
                                 <div v-if="pSecretsResult.secrets.length > 0">
                                     <v-data-table
                                         v-bind:items="pSecretsResult.secrets"
@@ -382,7 +382,7 @@
                                 </div>
                             </v-tab-item>
 
-                            <v-tab-item>
+                            <v-tab-item v-if="pr.licenseResult">
                                 <div v-if="pLicenseFinderResult.imageDependencies.length > 0">
                                 <v-card class ="mx-auto" outlines="">
                                     <v-card-title style = "color:red"> 

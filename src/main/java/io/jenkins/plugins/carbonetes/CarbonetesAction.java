@@ -34,7 +34,7 @@ public class CarbonetesAction implements RunAction2 {
 	}
 
 	public String getPolicyEvaluationResult() {
-		return policyEvaluationResult;
+		return policyEvaluationResult.isEmpty() ? "null" : policyEvaluationResult;
 	}
 
 	public void setPolicyEvaluationResult(String policyEvaluationResult) {
@@ -42,7 +42,7 @@ public class CarbonetesAction implements RunAction2 {
 	}
 
 	public String getVulnerabilitiesResult() {
-		return vulnerabilitiesResult;
+		return vulnerabilitiesResult.isEmpty() ? "null" : vulnerabilitiesResult;
 	}
 
 	public void setVulnerabilitiesResult(String vulnerabilitiesResult) {
@@ -50,7 +50,7 @@ public class CarbonetesAction implements RunAction2 {
 	}
 
 	public String getScaResult() {
-		return scaResult;
+		return scaResult.isEmpty() ? "null" : scaResult;
 	}
 
 	public void setScaResult(String scaResult) {
@@ -58,7 +58,7 @@ public class CarbonetesAction implements RunAction2 {
 	}
 
 	public String getMalwareResult() {
-		return malwareResult;
+		return malwareResult.isEmpty() ? "null" : malwareResult;
 	}
 
 	public void setMalwareResult(String malwareResult) {
@@ -66,7 +66,7 @@ public class CarbonetesAction implements RunAction2 {
 	}
 
 	public String getLicenseFinderResult() {
-		return licenseFinderResult;
+		return licenseFinderResult.isEmpty() ? "null" : licenseFinderResult;
 	}
 
 	public void setLicenseFinderResult(String licenseFinderResult) {
@@ -74,7 +74,7 @@ public class CarbonetesAction implements RunAction2 {
 	}
 
 	public String getSecretsAnalysisResult() {
-		return secretsAnalysisResult;
+		return secretsAnalysisResult.isEmpty() ? "null" : secretsAnalysisResult;
 	}
 
 	public void setSecretsAnalysisResult(String secretsAnalysisResult) {
