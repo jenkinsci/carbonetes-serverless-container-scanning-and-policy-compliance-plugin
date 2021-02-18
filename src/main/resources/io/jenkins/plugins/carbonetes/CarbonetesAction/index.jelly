@@ -1,5 +1,5 @@
 <?jelly escape-by-default='true'?>
-<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:v-bind="null" xmlns:v-on="null" xmlns:a="null" xmlns:v-model="null" xmlns:v-slot="null" xmlns:g="glide" xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form" >
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:v-bind="null" xmlns:v-on="null" xmlns:a="null" xmlns:v-model="null" xmlns:v-slot="null" xmlns:v-tool-tip="null" xmlns:g="glide" xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form" >
   <l:layout norefresh="true">
   	<l:side-panel> 
 	   	 <st:include page="sidepanel.jelly" it="${it.build}"/> 
@@ -36,6 +36,9 @@
                         <v-tab v-if="pr.malwareResult">
                             <v-card-text>Malware Analysis</v-card-text>
                         </v-tab>
+                        <v-tab v-if="pr.bomResult">
+                        	<v-card-text>Bill of Materials </v-card-text>
+                        </v-tab>
                         <v-tab v-if="pr.secretsResult">
                             <v-card-text>Secrets Analysis</v-card-text>
                         </v-tab>
@@ -49,23 +52,28 @@
                                 <v-card class="mx-auto" outlined="">
                                     <v-container>
                                         <div class="row">
-                                        <div class="col-md-3">
+                                        <div class="col-md-6">
                                                 <v-card-text ><span class="font-weight-bold">Policy Bundle</span></v-card-text>
                                                 <v-divider></v-divider>
                                         </div>
-                                        <div class="col-md-4">
+                                        <div class="col-md-6">
                                                 <v-card-text>
-                                                <span>${it.getPolicyBundleId()}</span>
+                                                <div v-if="pr.policyBundleId">
+                                                   <span>{{pr.policyBundleId}}</span>
+                                                </div>
+                                                 <span v-else="">
+                                                    --
+                                                 </span>
                                                 </v-card-text>
                                                 <v-divider></v-divider>
                                         </div>
                                         </div>
                                         <div class="row">	
-                                            <div class="col-md-3">
+                                            <div class="col-md-6">
                                                     <v-card-text ><span class="font-weight-bold">Status</span></v-card-text>
                                                     <v-divider></v-divider>
                                             </div>
-                                            <div class="col-md-4">
+                                            <div class="col-md-6">
                                                     <v-card-text>
                                                     <span class="label label-negligible" v-if="pr.policyEvaluationResult.policyResult=='PASSED'"> {{pr.policyEvaluationResult.policyResult}}</span>
                                                     <span class="label label-critical" v-if="pr.policyEvaluationResult.policyResult=='FAILED'"> {{pr.policyEvaluationResult.policyResult}}</span> 
@@ -74,11 +82,11 @@
                                             </div>
                                         </div>
                                         <div class="row">
-                                            <div class="col-md-3">
+                                            <div class="col-md-6">
                                                     <v-card-text ><span class="font-weight-bold">Final Action</span></v-card-text>
                                                     <v-divider></v-divider>
                                             </div>
-                                            <div class="col-md-4">
+                                            <div class="col-md-6">
                                                     <v-card-text>
                                                     <span class="label label-critical" v-if="pr.policyEvaluationResult.finalAction=='STOP'"> {{pr.policyEvaluationResult.finalAction}}</span>
                                                     <span class="label label-negligible" v-if="pr.policyEvaluationResult.finalAction=='GO'"> {{pr.policyEvaluationResult.finalAction}}</span>
@@ -97,13 +105,9 @@
                                                 v-bind:items="pPolicyEvaluationResult.policyEvaluationResults"
                                                 v-bind:headers="pr.policyHeaders"
                                                 class="elevation-1"
-                                                >
+                                                :footer-props="pr.footerProps">
                                                     <template v-slot:item="props">
                                                         <tr>
-                                                            <td class="text-xs-center">
-                                                                {{props.item.triggerId}}
-                                                            </td>
-
                                                             <td class="text-xs-center">
                                                                 {{props.item.gate}}
                                                             </td>
@@ -137,7 +141,7 @@
                                     <v-data-table
                                     v-bind:items="pVulnerabilityResult.vulnerabilities"
                                     v-bind:headers="pr.dedupHeaders"
-                                    :items-per-page-options="pr.rowsPerPageOptions"
+                                    :footer-props="pr.footerProps"
                                     class="elevation-1"
                                     >
                                     <template v-slot:item="props">
@@ -219,7 +223,7 @@
                                                 <v-divider></v-divider>
                                             </div>
                                             <div class="col-md-3">
-                                                <v-card-text><span class = "label label-negligible">${it.getFullTag()}</span></v-card-text>
+                                                <v-card-text><span class = "label label-negligible">${it.getImage()}</span></v-card-text>
                                                 <v-divider></v-divider>
                                             </div>
                                             <div class="col-md-3">
@@ -279,6 +283,7 @@
                                                 v-bind:items="pScaResult.analysis.dependencies"
                                                 v-bind:headers="pr.scaHeaders"
                                                 class="elevation-1"
+                                                :footer-props="pr.footerProps"
                                                 >
                                                     <template v-slot:item="props">
                                                         <tr>
@@ -309,7 +314,9 @@
                                     <div v-if="pMalwareResult.scanResult.infectedFiles.length > 0">
                                     <v-data-table
                                         v-bind:items="pMalwareResult.scanResult.infectedFiles"
-                                        v-bind:headers="pr.malwareHeaders">
+                                        v-bind:headers="pr.malwareHeaders"
+                                        :footer-props="pr.footerProps"
+                                        class="elevation-1">
                                         <template v-slot:item="props">
                                             <tr>
                                                 <td class="text-xs-center">
@@ -349,11 +356,130 @@
                                 </div>
                             </v-tab-item>
 
+                            <v-tab-item v-if="pr.bomResult">
+                                <v-card class="mx-auto" outlined="">
+                                    <v-container>
+                                        <div v-if="pr.bomResult.status == 'analyzed'">
+                                            <div v-if="pr.bomResult.source.target.layers.length > 0">
+                                                <v-card-title>
+                                                    <span class="font-weight-bold">Image Source</span>	
+                                                </v-card-title>
+                                                <v-data-table
+                                                    v-bind:items="pr.bomResult.source.target.layers"
+                                                    v-bind:headers="pr.bomSourceHeaders"
+                                                    :footer-props="pr.footerProps"
+                                                    class="elevation-1">
+                                                    <template v-slot:item="props">
+                                                        <tr>
+                                                            <td class="text-xs-center">
+                                                                    <div v-if="props.item.mediaType">
+                                                                        {{props.item.mediaType}}
+                                                                    </div>
+                                                                    <div v-else="">
+                                                                        --
+                                                                    </div>
+                                                            </td>
+                                                            <td class="text-xs-center">
+                                                                    <div v-if="props.item.digest">
+                                                                        {{props.item.digest}}
+                                                                    </div>
+                                                                    <div v-else="">
+                                                                        --
+                                                                    </div>
+                                                            </td>
+                                                            <td class="text-xs-center">
+                                                                    <div v-if="props.item.size">
+                                                                        {{bytesToSize(props.item.size)}}
+                                                                    </div>
+                                                                    <div v-else="">
+                                                                        --
+                                                                    </div>
+                                                            </td>
+                                                        </tr>
+                                                    </template>
+                                                </v-data-table>
+                                            </div>
+                                            <div v-if="pr.bomResult.artifacts.length > 0">
+                                                <v-card-title>
+                                                    <span class="font-weight-bold">Packages Found</span>	
+                                                </v-card-title>
+                                                <v-data-table
+                                                    v-bind:items="pr.bomResult.artifacts"
+                                                    v-bind:headers="pr.bomPackageHeaders"
+                                                    :footer-props="pr.footerProps"
+                                                    class="elevation-1">
+                                                    <template v-slot:item="props">
+                                                        <tr>
+                                                            <td class="text-xs-center">
+                                                                    <div v-if="props.item.name">
+                                                                        {{props.item.name}}
+                                                                    </div>
+                                                                    <div v-else="">
+                                                                        --
+                                                                    </div>
+                                                            </td>
+                                                            <td class="text-xs-center">
+                                                                <div v-if="props.item.version">
+                                                                    {{props.item.version}}
+                                                                </div>
+                                                                <div v-else="">
+                                                                    --
+                                                                </div>
+                                                            </td>
+                                                            <td class="text-xs-left">
+                                                                <div v-if="props.item.type">
+                                                                    {{props.item.type}}
+                                                                    </div>
+                                                                <div v-else="">
+                                                                    --
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <template v-if="props.item.locations.length > 1">
+                                                                    <div class="font-weight-bold">Package Paths</div>
+                                                                    <ul class="mb-0">
+                                                                        <li v-for="l in props.item.locations">
+                                                                            <div class="font-weight-bold">{{l.path}}</div>
+                                                                        </li>
+                                                                    </ul>
+                                                                </template>
+                                                                <template v-else-if="props.item.locations.length == 1">
+                                                                    <a href="javascript:;">
+                                                                        <span>
+                                                                            {{props.item.locations[0].path}}
+                                                                        </span>
+                                                                    </a>
+                                                                </template>
+                                                                <div v-else="">
+                                                                    --
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    </template>	
+                                                </v-data-table>
+                                            </div>  
+                                            <div v-else="">
+                                                <v-card>
+                                                    <v-card-title>
+                                                        <label>
+                                                            <i class="far fa-check-circle"></i>
+                                                            No artifact(s) found.
+                                                        </label>
+                                                    </v-card-title>
+                                                </v-card>
+                                            </div>
+                                        </div>
+                                    </v-container>
+                                </v-card>
+                            </v-tab-item>    
+
                             <v-tab-item v-if="pr.secretsResult">
                                 <div v-if="pSecretsResult.secrets.length > 0">
                                     <v-data-table
                                         v-bind:items="pSecretsResult.secrets"
-                                        v-bind:headers="pr.secretsHeaders">
+                                        v-bind:headers="pr.secretsHeaders"
+                                        :footer-props="pr.footerProps"
+                                        class="elevation-1">
                                         <template v-slot:item="props">
                                             <tr>
                                                 <td class="text-xs-center">
@@ -392,6 +518,7 @@
                                     v-bind:items="pLicenseFinderResult.imageDependencies"
                                     v-bind:headers="pr.licenseFinderHeaders"
                                     class="elevation-1"
+                                    :footer-props="pr.footerProps"
                                     >
                                         <template v-slot:item="props">
                                             <tr>
@@ -470,8 +597,18 @@
                             { text: 'File Name', value: 'fileName', sortable: true},
                             { text: 'Virus', value: 'fileName', sortable: true}
                         ],
+                        bomPackageHeaders: [
+                        	{ text: 'Name', value: '', sortable: true},
+                        	{ text: 'Version', value: '', sortable: true},
+                        	{ text: 'Type', value: '', sortable: true},
+                        	{ text: 'Path', value: '', sortable: true}
+                        ],
+                        bomSourceHeaders: [
+                            { text: 'Media Type', value: '', sortable: true},
+                            { text: 'Digest', value: '', sortable: true},
+                            { text: 'Size', value: '', sortable: true},
+                        ],
                         policyHeaders:[
-                            { text: 'Trigger ID', value: 'triggerId', sortable: true},
                             { text: 'Gate', value: 'gate', sortable: true},
                             { text: 'Gate Trigger', value: 'gateTrigger', sortable: true},
                             { text: 'Check Output', value: 'checkOutput', sortable: true},
@@ -497,10 +634,15 @@
                         tab : null,	    
                         rowsPerPageOptions : { 
                             rowsPerPageItems: [5, 10, 20]
-                        },   
+                        }, 
+                        footerProps: {
+                            disableItemsPerPage : true
+                        },
+                        policyBundleId: ${it.getPolicyBundleId()},
                         vulnerabilityResult : ${it.getVulnerabilitiesResult()},
                         scaResult : ${it.getScaResult()},
                         malwareResult : ${it.getMalwareResult()},
+                        bomResult     : ${it.getBillOfMaterialsResult()},
                         licenseResult : ${it.getLicenseFinderResult()},
                         secretsResult : ${it.getSecretsAnalysisResult()},
                         policyEvaluationResult : ${it.getPolicyEvaluationResult()},
@@ -533,6 +675,11 @@
                             return this.pr.malwareResult
                         }
                     },
+                    pBomResult: {
+                    	get() {
+                    		return this.pr.bomResult
+                    	}
+                    },
                     pVulnerabilityResult: {
                             get() {
                                 return this.pr.vulnerabilityResult
@@ -549,6 +696,15 @@
                         }
                     },
                 },
+
+                methods: {
+                    bytesToSize(bytes) {
+                        var sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
+                        if (bytes == 0) return '0 Byte';
+                        var i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)));
+                        return Math.round(bytes / Math.pow(1024, i), 2) + ' ' + sizes[i];
+                },
+    }
             })
         </script>
     </HTML>	

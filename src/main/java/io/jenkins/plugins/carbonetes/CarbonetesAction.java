@@ -13,12 +13,14 @@ public class CarbonetesAction implements RunAction2 {
 	private String		malwareResult;
 	private String		licenseFinderResult;
 	private String		secretsAnalysisResult;
+	private String      billOfMaterialsResult;
 	private String		gateAction;
 	private String		fullTag;
 	private String		policyBundleId;
+	private String		image;
 
 	public String getPolicyBundleId() {
-		return policyBundleId;
+		return policyBundleId.isEmpty() ? "null" : policyBundleId;
 	}
 
 	public void setPolicyBundleId(String policyBundleId) {
@@ -64,6 +66,14 @@ public class CarbonetesAction implements RunAction2 {
 	public void setMalwareResult(String malwareResult) {
 		this.malwareResult = malwareResult;
 	}
+	
+	public String getBillOfMaterialsResult() {
+		return billOfMaterialsResult.isEmpty() ? "null" : billOfMaterialsResult;
+	}
+	
+	public void setBillOfMaterialsResult(String billOfMaterialsResult) {
+		this.billOfMaterialsResult = billOfMaterialsResult;
+	}
 
 	public String getLicenseFinderResult() {
 		return licenseFinderResult.isEmpty() ? "null" : licenseFinderResult;
@@ -88,25 +98,35 @@ public class CarbonetesAction implements RunAction2 {
 	public void setGateAction(String gateAction) {
 		this.gateAction = gateAction;
 	}
+	
+	public String getImage() {
+		return this.image;
+	}
+	
+	public void setImage(String image) {
+		this.image = image;
+	}
 
 	public Run<?, ?> getBuild() {
 		return build;
 	}
 
 	public CarbonetesAction(Run<?, ?> build, String policyEvaluationResult, String vulnerabilitiesResult,
-	        String scaResult, String malwareResult, String licenseFinderResult, String secretsAnalysisResult,
-	        String gateAction, String fullTag, String policyBundleId) {
+	        String scaResult, String malwareResult, String billOfMaterialsResult, String licenseFinderResult, String secretsAnalysisResult,
+	        String gateAction, String fullTag, String policyBundleId, String image) {
 		super();
 		this.build					= build;
 		this.policyEvaluationResult	= policyEvaluationResult;
 		this.vulnerabilitiesResult	= vulnerabilitiesResult;
 		this.scaResult				= scaResult;
 		this.malwareResult			= malwareResult;
+		this.billOfMaterialsResult  = billOfMaterialsResult;
 		this.licenseFinderResult	= licenseFinderResult;
 		this.secretsAnalysisResult	= secretsAnalysisResult;
 		this.gateAction				= gateAction;
 		this.fullTag				= fullTag;
 		this.policyBundleId			= policyBundleId;
+		this.image 					= image;
 	}
 
 	@Override

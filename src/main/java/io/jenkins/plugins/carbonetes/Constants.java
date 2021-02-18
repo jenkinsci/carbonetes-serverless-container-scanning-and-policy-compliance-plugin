@@ -16,8 +16,8 @@ public class Constants {
 	public static final String	PLUGIN_ERROR_IGNORED			= "Plugin error result was ignored. \n";
 
 	// API END POINTS
-	public static final String	CARBONETES_ENDPOINT_ANALYZE		= "https://api.carbonetes.com/analyze";
-	public static final String	CARBONETES_ENDPOINT_GET_RESULT	= "https://api.carbonetes.com/get-result";
+	public static final String	CARBONETES_ENDPOINT_ANALYZE		= "https://api.carbonetes.com/api/v1/analysis/analyze";
+	public static final String	CARBONETES_ENDPOINT_GET_RESULT	= "https://api.carbonetes.com/api/v1/analysis/get-result";
 
 	// JSON Fields
 	public static final String	JSON_FIELD_REGISTRY_URI			= "registryUri";
@@ -34,7 +34,7 @@ public class Constants {
 	public static final String	JSON_FIELD_MALWARE				= "malwareAnalysisLatest";
 	public static final String	JSON_FIELD_LICENSE_FINDER		= "licenseFinderLatest";
 	public static final String	JSON_FIELD_SECRETS				= "secretAnalysisLatest";
-	public static final String	JSON_FIELD_REPO_TAG				= "repoTag";
+	public static final String  JSON_FIELD_BOM					= "billOfMaterialsAnalysisLatest";
 	public static final String	JSON_FIELD_POLICY_RESULT		= "policyResult";
 	public static final String	JSON_FIELD_FINAL_ACTION			= "finalAction";
 
@@ -52,5 +52,5 @@ public class Constants {
 	public static final String  INSUFFICIENT_LICENSE_MESSAGE 	= "Insufficient Carbonetes License(s). \n Your contract license is insufficient for your current users. Please configure your AWS Contract Licenses to successfully login your account.";
 	public static final String  ACCOUNT_CONFLICT  				= "Account not found";
 	public static final String  ACCOUNT_CONFLICT_MESSAGE  		= "AWS Customer ID Conflict. \n Your Customer ID is associated to a different company. Please check your account or contact your Administrator to successfully save or update your AWS Contract Licenses.";
-	
+	public static final String  SEPARATOR					    = "/";
 }

@@ -232,10 +232,11 @@ public class CarbonetesBuilder extends Builder implements SimpleBuildStep {
 
 			carbonetesAction = new CarbonetesAction(run, carbonetesAPI.getPolicyEvaluationResult(),
 			        carbonetesAPI.getVulnerabilitiesResult(), carbonetesAPI.getSCAResult(),
-			        carbonetesAPI.getMalwareResult(), carbonetesAPI.getLicenseFinderResult(),
+			        carbonetesAPI.getMalwareResult(), carbonetesAPI.getBillOfMaterialsResult(), 
+			        carbonetesAPI.getLicenseFinderResult(),
 			        carbonetesAPI.getSecretsAnalysisResult(), carbonetesAPI.getGateAction(), carbonetesAPI.getFullTag(),
 			        Strings.isNullOrEmpty(configuration.getPolicyBundleID()) ? carbonetesAPI.getDefaultBundleUUID()
-			                : configuration.getPolicyBundleID());
+			                : configuration.getPolicyBundleID(), configuration.getImage());
 
 			run.addAction(carbonetesAction);
 
@@ -247,11 +248,12 @@ public class CarbonetesBuilder extends Builder implements SimpleBuildStep {
 
 				carbonetesAction = new CarbonetesAction(run, carbonetesAPI.getPolicyEvaluationResult(),
 				        carbonetesAPI.getVulnerabilitiesResult(), carbonetesAPI.getSCAResult(),
-				        carbonetesAPI.getMalwareResult(), carbonetesAPI.getLicenseFinderResult(),
+				        carbonetesAPI.getMalwareResult(), carbonetesAPI.getBillOfMaterialsResult(), 
+				        carbonetesAPI.getLicenseFinderResult(),
 				        carbonetesAPI.getSecretsAnalysisResult(), carbonetesAPI.getGateAction(),
 				        carbonetesAPI.getFullTag(),
 				        Strings.isNullOrEmpty(configuration.getPolicyBundleID()) ? carbonetesAPI.getDefaultBundleUUID()
-				                : configuration.getPolicyBundleID());
+				                : configuration.getPolicyBundleID(), configuration.getImage());
 
 				run.addAction(carbonetesAction);
 			}
@@ -262,8 +264,9 @@ public class CarbonetesBuilder extends Builder implements SimpleBuildStep {
 				return;
 			}
 
-			if (configuration.isFailBuildOnPluginError())
+			if (configuration.isFailBuildOnPluginError() || configuration.isFailBuildOnPolicyEvaluationFinalResult()) {
 				throw new AbortException(e.getMessage());
+			}
 			else {
 				listener.getLogger().println("Plugin encountered error." + "\n" + e);
 			}

@@ -47,7 +47,7 @@ public class CarbonetesAPI extends AbstractAPIWorker {
 	}
 
 	public String getFullTag() {
-		return completeAnalysisResponse.findPath(Constants.JSON_FIELD_REPO_TAG).asText();
+		return configuration.getRegistryUri() + Constants.SEPARATOR + configuration.getImage();
 	}
 
 	public JsonNode getCompleteAnalysisResponse() {
@@ -77,6 +77,10 @@ public class CarbonetesAPI extends AbstractAPIWorker {
 
 	public String getSecretsAnalysisResult() {
 		return completeAnalysisResponse.findPath(Constants.JSON_FIELD_SECRETS).toString();
+	}
+	
+	public String getBillOfMaterialsResult() {
+		return completeAnalysisResponse.findPath(Constants.JSON_FIELD_BOM).toString();
 	}
 
 	public String getGateAction() {
@@ -160,7 +164,7 @@ public class CarbonetesAPI extends AbstractAPIWorker {
 
 		ArrayNode policyEvaluationResult = mapper.readValue(
 		        completeAnalysisResponse.findPath(Constants.JSON_FIELD_REPO_IMAGE_ENV).toString(), ArrayNode.class);
-
+		
 		policyResult	= ACTION.fromName(policyEvaluationResult.findPath(Constants.JSON_FIELD_POLICY_EVALUATION)
 		        .findPath(Constants.JSON_FIELD_POLICY_RESULT).asText());
 		finalAction		= ACTION.fromName(policyEvaluationResult.findPath(Constants.JSON_FIELD_POLICY_EVALUATION)
