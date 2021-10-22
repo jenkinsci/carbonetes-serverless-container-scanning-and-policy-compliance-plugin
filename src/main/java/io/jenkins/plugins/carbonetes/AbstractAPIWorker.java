@@ -45,6 +45,8 @@ public abstract class AbstractAPIWorker {
 			message = Constants.INSUFFICIENT_LICENSE_MESSAGE;
 		} else if (responseBody.equalsIgnoreCase(Constants.ACCOUNT_CONFLICT)) {
 			message = Constants.ACCOUNT_CONFLICT_MESSAGE;
+		} else {
+			message = responseBody;
 		}
 	}
 }

@@ -18,6 +18,15 @@ public class CarbonetesAction implements RunAction2 {
 	private String		fullTag;
 	private String		policyBundleId;
 	private String		image;
+	private String		bundleName;
+
+	public String getBundleName() {
+		return this.bundleName;
+	}
+
+	public void setBundleName(String bundleName) {
+		this.bundleName = bundleName;
+	}
 
 	public String getPolicyBundleId() {
 		return policyBundleId.isEmpty() ? "null" : policyBundleId;
@@ -113,7 +122,7 @@ public class CarbonetesAction implements RunAction2 {
 
 	public CarbonetesAction(Run<?, ?> build, String policyEvaluationResult, String vulnerabilitiesResult,
 	        String scaResult, String malwareResult, String billOfMaterialsResult, String licenseFinderResult, String secretsAnalysisResult,
-	        String gateAction, String fullTag, String policyBundleId, String image) {
+	        String gateAction, String fullTag, String policyBundleId, String image, String bundleName) {
 		super();
 		this.build					= build;
 		this.policyEvaluationResult	= policyEvaluationResult;
@@ -127,6 +136,7 @@ public class CarbonetesAction implements RunAction2 {
 		this.fullTag				= fullTag;
 		this.policyBundleId			= policyBundleId;
 		this.image 					= image;
+		this.bundleName 			= bundleName;
 	}
 
 	@Override

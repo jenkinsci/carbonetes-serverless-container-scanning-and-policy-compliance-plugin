@@ -3,14 +3,14 @@ package io.jenkins.plugins.carbonetes;
 import java.io.IOException;
 import java.util.logging.Logger;
 
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.util.EntityUtils;
-
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.google.common.base.Strings;
+
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.util.EntityUtils;
 
 import hudson.AbortException;
 import hudson.model.TaskListener;
@@ -22,27 +22,37 @@ import net.sf.json.JSONObject;
  */
 public class CarbonetesAPI extends AbstractAPIWorker {
 
-	private static final Logger	logger	= Logger.getLogger(CarbonetesAPI.class.getName());
+	private static final Logger logger = Logger.getLogger(CarbonetesAPI.class.getName());
 
 	// Private Fields
-	private ObjectMapper		mapper	= new ObjectMapper();
-	private ACTION				finalAction;
-	private ACTION				policyResult;
-	private JsonNode			completeAnalysisResponse;
-	private String				defaultBundleUUID;
-	private boolean				resultLoaded;
+	private ObjectMapper mapper = new ObjectMapper();
+	private Action finalAction;
+	private Action policyResult;
+	private JsonNode completeAnalysisResponse;
+	private String defaultBundleUUID;
+	private boolean resultLoaded;
+	private String	bundleName;
+	private static final String REQUEST_RETURNED = "Request Returned : ";
+	private static final String REQUEST_URI = "Request URI: ";
+	private static final String MESSAGE_STRING = "Message: ";
+
 	// End Private Fields
 
 	// Getters & Setters
+
+	public String getBundleName() {
+		return this.bundleName;
+	}
+
 	public String getDefaultBundleUUID() {
 		return defaultBundleUUID;
 	}
 
-	public ACTION getFinalAction() {
+	public Action getFinalAction() {
 		return finalAction;
 	}
 
-	public ACTION getPolicyResult() {
+	public Action getPolicyResult() {
 		return policyResult;
 	}
 
@@ -56,7 +66,7 @@ public class CarbonetesAPI extends AbstractAPIWorker {
 
 	public String getPolicyEvaluationResult() {
 		return completeAnalysisResponse.findPath(Constants.JSON_FIELD_REPO_IMAGE_ENV)
-		        .findPath(Constants.JSON_FIELD_POLICY_EVALUATION).toString();
+				.findPath(Constants.JSON_FIELD_POLICY_EVALUATION).toString();
 	}
 
 	public String getVulnerabilitiesResult() {
@@ -78,14 +88,14 @@ public class CarbonetesAPI extends AbstractAPIWorker {
 	public String getSecretsAnalysisResult() {
 		return completeAnalysisResponse.findPath(Constants.JSON_FIELD_SECRETS).toString();
 	}
-	
+
 	public String getBillOfMaterialsResult() {
 		return completeAnalysisResponse.findPath(Constants.JSON_FIELD_BOM).toString();
 	}
 
 	public String getGateAction() {
 		String gateAction = completeAnalysisResponse.findPath(Constants.JSON_FIELD_REPO_IMAGE_ENV)
-		        .findPath(Constants.JSON_FIELD_POLICY_EVALUATION).findPath(Constants.JSON_FIELD_FINAL_ACTION).asText();
+				.findPath(Constants.JSON_FIELD_POLICY_EVALUATION).findPath(Constants.JSON_FIELD_FINAL_ACTION).asText();
 		return gateAction.isEmpty() ? "ERROR" : gateAction;
 	}
 
@@ -95,11 +105,11 @@ public class CarbonetesAPI extends AbstractAPIWorker {
 	// End Getters & Setters
 
 	public CarbonetesAPI(TaskListener listener, Configuration configuration) {
-		this.listener		= listener;
-		this.configuration	= configuration;
+		this.listener = listener;
+		this.configuration = configuration;
 	}
 
-	public void initialize() throws Exception {
+	public void initialize() {
 		this.initializeAPICall();
 	}
 
@@ -108,7 +118,7 @@ public class CarbonetesAPI extends AbstractAPIWorker {
 	 * 
 	 * @throws Exception
 	 */
-	public void performComprehensiveAnalysis() throws Exception {
+	public void performComprehensiveAnalysis() throws IOException {
 
 		listener.getLogger().println("Performing Comprehensive Analysis...");
 
@@ -119,7 +129,7 @@ public class CarbonetesAPI extends AbstractAPIWorker {
 		jsonBody.put(Constants.JSON_FIELD_USERNAME, configuration.getUsername());
 		jsonBody.put(Constants.JSON_FIELD_PASSWORD, configuration.getSecretPassword().getPlainText());
 		jsonBody.put(Constants.JSON_FIELD_TIMEOUT, configuration.getEngineTimeout());
-		jsonBody.put(Constants.JSON_FIELD_POlICY_BUNDlE_UUID, configuration.getPolicyBundleID());
+		jsonBody.put(Constants.JSON_FIELD_POLICY_BUNDLE_UUID, configuration.getPolicyBundleID());
 
 		String url = Constants.CARBONETES_ENDPOINT_ANALYZE;
 		httpPost = new HttpPost(url);
@@ -141,16 +151,16 @@ public class CarbonetesAPI extends AbstractAPIWorker {
 			this.setErrorMessageFromResponse();
 			if (configuration.isFailBuildOnPluginError()) {
 				throw new AbortException(Constants.ERROR_MESSAGE 
-						+ "Request Returned :" 	 + response.getStatusLine().getStatusCode() 
-						+ " " + response.getStatusLine().getReasonPhrase()
-				        + "\n" + "Request URI: " + httpPost.getURI() 
-				        + "\n" + "Message: " 	 + message);
+						+ REQUEST_RETURNED 	 + response.getStatusLine().getStatusCode() 
+						+ " " +  response.getStatusLine().getReasonPhrase()
+				        + "\n" + REQUEST_URI + httpPost.getURI() 
+				        + "\n" + MESSAGE_STRING + message);
 			} else {
 				throw new AbortException(Constants.PLUGIN_ERROR_IGNORED 
-						+ "Request Returned :" 	 + response.getStatusLine().getStatusCode() 
-						+ " " + response.getStatusLine().getReasonPhrase()
-				        + "\n" + "Request URI: " + httpPost.getURI()  
-				        + "\n" + "Message: " 	 + message);
+						+ REQUEST_RETURNED 	 + response.getStatusLine().getStatusCode() 
+						+ " " +  response.getStatusLine().getReasonPhrase()
+				        + "\n" + REQUEST_URI + httpPost.getURI()  
+				        + "\n" + MESSAGE_STRING + message);
 			}
 		}
 
@@ -159,17 +169,20 @@ public class CarbonetesAPI extends AbstractAPIWorker {
 
 		if (Strings.isNullOrEmpty(configuration.getPolicyBundleID())) {
 			defaultBundleUUID = completeAnalysisResponse.findPath(Constants.JSON_FIELD_POLICY_BUNDLE)
-			        .findPath(Constants.JSON_FIELD_POlICY_BUNDlE_UUID).asText();
+			        .findPath(Constants.JSON_FIELD_POLICY_BUNDLE_UUID).asText();
 		}
 
 		ArrayNode policyEvaluationResult = mapper.readValue(
 		        completeAnalysisResponse.findPath(Constants.JSON_FIELD_REPO_IMAGE_ENV).toString(), ArrayNode.class);
+
+				
 		
-		policyResult	= ACTION.fromName(policyEvaluationResult.findPath(Constants.JSON_FIELD_POLICY_EVALUATION)
+		policyResult	= Action.fromName(policyEvaluationResult.findPath(Constants.JSON_FIELD_POLICY_EVALUATION)
 		        .findPath(Constants.JSON_FIELD_POLICY_RESULT).asText());
-		finalAction		= ACTION.fromName(policyEvaluationResult.findPath(Constants.JSON_FIELD_POLICY_EVALUATION)
+		finalAction		= Action.fromName(policyEvaluationResult.findPath(Constants.JSON_FIELD_POLICY_EVALUATION)
 		        .findPath(Constants.JSON_FIELD_FINAL_ACTION).asText());
 
+		bundleName = policyEvaluationResult.findPath(Constants.JSON_FIELD_POLICY_BUNDLE).findPath(Constants.JSON_FIELD_BUNDLE_NAME).asText();	
 		listener.getLogger().println("Policy Result : " + policyResult);
 		listener.getLogger().println("Final Action : " + finalAction);
 
@@ -212,21 +225,52 @@ public class CarbonetesAPI extends AbstractAPIWorker {
 			if (statusCode == Constants.STATUS_CODE_SUCCESS) {
 				completeAnalysisResponse = mapper.readTree(responseBody);
 			} else {
+				this.setErrorMessageFromResponse();
 				if (configuration.isFailBuildOnPluginError()) {
 					throw new AbortException(Constants.ERROR_MESSAGE 
-							+ "Request Returned :"   + response.getStatusLine().getStatusCode() 
-							+ " "  + response.getStatusLine().getReasonPhrase()
-							+ "\n" + "Request URI: " + httpPost.getURI()  
-							+ "\n" + "Message: "    + responseBody);
+						+ REQUEST_RETURNED 	 + response.getStatusLine().getStatusCode() 
+						+ " " +  response.getStatusLine().getReasonPhrase()
+						+ "\n" + REQUEST_URI + httpPost.getURI() 
+						+ "\n" + MESSAGE_STRING + message);
 				} else {
 					throw new AbortException(Constants.PLUGIN_ERROR_IGNORED 
-							+ "Request Returned :"   + response.getStatusLine().getStatusCode() 
-							+ " "  + response.getStatusLine().getReasonPhrase()
-							+ "\n" + "Request URI: " + httpPost.getURI()  
-							+ "\n" + "Message: " 	 + responseBody);
+						+ REQUEST_RETURNED 	 + response.getStatusLine().getStatusCode() 
+						+ " " +  response.getStatusLine().getReasonPhrase()
+				        + "\n" + REQUEST_URI + httpPost.getURI()  
+				        + "\n" + MESSAGE_STRING + message);
 				}
 			}
 
+			// URL url = new URL(Constants.CARBONETES_ENDPOINT_GET_RESULT);
+			// HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+			// connection.setRequestProperty("accept", "application/json");
+			// connection.setRequestProperty("Content-Type", "application/json");
+			// connection.setRequestMethod("POST");
+			// connection.setDoOutput(true);
+			// OutputStreamWriter writer = new OutputStreamWriter(connection.getOutputStream(), "UTF-8");
+			// writer.write(checkerData.toString());
+			// writer.flush();
+			// connection.getOutputStream().close();
+			// writer.close();
+			// connection.connect();
+
+			//  // This line makes the request
+			//  InputStream responseStream = connection.getInputStream();
+
+			//  // Manually converting the response body InputStream to APOD using Jackson
+			//  ObjectMapper mapper = new ObjectMapper();
+			//  JsonNode response = mapper.readValue(responseStream, JsonNode.class);
+
+			// String result;
+			// BufferedInputStream bis = new BufferedInputStream(connection.getInputStream());
+			// ByteArrayOutputStream buf = new ByteArrayOutputStream();
+			// int result2 = bis.read();
+			// while(result2 != -1) {
+			// 	buf.write((byte) result2);
+			// 	result2 = bis.read();
+			// }
+			// result = buf.toString();
+			// completeAnalysisResponse = mapper.readTree(result);
 		} catch (IOException e) {
 
 			logger.severe(e.getMessage());

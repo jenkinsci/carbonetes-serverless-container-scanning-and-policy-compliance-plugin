@@ -16,7 +16,7 @@ public class Constants {
 	public static final String	PLUGIN_ERROR_IGNORED			= "Plugin error result was ignored. \n";
 
 	// API END POINTS
-	public static final String	CARBONETES_ENDPOINT_ANALYZE		= "https://api.carbonetes.com/api/v1/analysis/analyze";
+	public static final String	CARBONETES_ENDPOINT_ANALYZE		= "https://api.carbonetes.com/api/v1/analysis";
 	public static final String	CARBONETES_ENDPOINT_GET_RESULT	= "https://api.carbonetes.com/api/v1/analysis/get-result";
 
 	// JSON Fields
@@ -25,7 +25,7 @@ public class Constants {
 	public static final String	JSON_FIELD_USERNAME				= "username";
 	public static final String	JSON_FIELD_PASSWORD				= "password";
 	public static final String	JSON_FIELD_TIMEOUT				= "timeout";
-	public static final String	JSON_FIELD_POlICY_BUNDlE_UUID	= "policyBundleUUID";
+	public static final String	JSON_FIELD_POLICY_BUNDLE_UUID	= "policyBundleUUID";
 	public static final String	JSON_FIELD_POLICY_BUNDLE		= "policyBundle";
 	public static final String	JSON_FIELD_REPO_IMAGE_ENV		= "repoImageEnvironments";
 	public static final String	JSON_FIELD_POLICY_EVALUATION	= "policyEvaluationLatest";
@@ -37,6 +37,8 @@ public class Constants {
 	public static final String  JSON_FIELD_BOM					= "billOfMaterialsAnalysisLatest";
 	public static final String	JSON_FIELD_POLICY_RESULT		= "policyResult";
 	public static final String	JSON_FIELD_FINAL_ACTION			= "finalAction";
+	public static final String	JSON_FIELD_BUNDLE_NAME			= "name";
+	
 
 	public static final String	PLUGIN_RESOURCE_PATH			= "/plugin/carbonetes-serverless-container-scanning-and-policy-compliance/";
 	public static final int		STATUS_CODE_SUCCESS				= 200;
@@ -53,4 +55,8 @@ public class Constants {
 	public static final String  ACCOUNT_CONFLICT  				= "Account not found";
 	public static final String  ACCOUNT_CONFLICT_MESSAGE  		= "AWS Customer ID Conflict. \n Your Customer ID is associated to a different company. Please check your account or contact your Administrator to successfully save or update your AWS Contract Licenses.";
 	public static final String  SEPARATOR					    = "/";
+
+	private Constants() {
+		throw new IllegalStateException("Utility class");
+	  }
 }

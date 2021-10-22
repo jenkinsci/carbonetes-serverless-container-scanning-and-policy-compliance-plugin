@@ -4,13 +4,13 @@ package io.jenkins.plugins.carbonetes;
  * Gate Action
  */
 
-public enum ACTION {
+public enum Action {
 
 	STOP("STOP"), WARN("WARN"), GO("GO"), PASS("PASS"), FAIL("FAIL"), PASSED("PASSED"), FAILED("FAILED");
 
 	private String description;
 
-	private ACTION(String description) {
+	private Action(String description) {
 		this.description = description;
 	}
 
@@ -18,8 +18,8 @@ public enum ACTION {
 		return description;
 	}
 
-	public static ACTION fromName(String value) {
-		for (ACTION action : ACTION.values()) {
+	public static Action fromName(String value) {
+		for (Action action : Action.values()) {
 			if (value.contains(action.getDescription())) {
 				return action;
 			}

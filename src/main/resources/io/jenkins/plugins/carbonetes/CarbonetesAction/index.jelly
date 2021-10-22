@@ -58,12 +58,9 @@
                                         </div>
                                         <div class="col-md-6">
                                                 <v-card-text>
-                                                <div v-if="pr.policyBundleId">
-                                                   <span>{{pr.policyBundleId}}</span>
-                                                </div>
-                                                 <span v-else="">
-                                                    --
-                                                 </span>
+                                                    <span v-if="pr.policyBundleId">{{pr.policyBundleId}}</span>
+                                                    <span v-else-if="pr.bundleName">{{pr.bundleName}}</span>
+                                                    <span v-else="">--</span>
                                                 </v-card-text>
                                                 <v-divider></v-divider>
                                         </div>
@@ -511,8 +508,8 @@
                             <v-tab-item v-if="pr.licenseResult">
                                 <div v-if="pLicenseFinderResult.imageDependencies.length > 0">
                                 <v-card class ="mx-auto" outlines="">
-                                    <v-card-title style = "color:red"> 
-                                        License Finder Status : {{pLicenseFinderResult.imageDependencies.length}} for approval dependencies.
+                                    <v-card-title> 
+                                        {{pLicenseFinderResult.imageDependencies.length}} licenses found.
                                     </v-card-title>
                                     <v-data-table
                                     v-bind:items="pLicenseFinderResult.imageDependencies"
@@ -530,7 +527,7 @@
                                                     {{props.item.version}}
                                                 </td>
                                                 <td class="text-xs-center">
-                                                    <div v-for="license in props.item.licenses">
+                                                    <div v-for="license in _.uniqWith(props.item.licenses, _.isEqual)">
                                                         <span>{{license.licenseName+" "}}</span>
                                                     </div>
                                                 </td>
@@ -639,6 +636,7 @@
                             disableItemsPerPage : true
                         },
                         policyBundleId: ${it.getPolicyBundleId()},
+                        bundleName: "${it.getBundleName()}",
                         vulnerabilityResult : ${it.getVulnerabilitiesResult()},
                         scaResult : ${it.getScaResult()},
                         malwareResult : ${it.getMalwareResult()},

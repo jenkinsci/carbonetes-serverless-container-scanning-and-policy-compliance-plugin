@@ -236,7 +236,7 @@ public class CarbonetesBuilder extends Builder implements SimpleBuildStep {
 			        carbonetesAPI.getLicenseFinderResult(),
 			        carbonetesAPI.getSecretsAnalysisResult(), carbonetesAPI.getGateAction(), carbonetesAPI.getFullTag(),
 			        Strings.isNullOrEmpty(configuration.getPolicyBundleID()) ? carbonetesAPI.getDefaultBundleUUID()
-			                : configuration.getPolicyBundleID(), configuration.getImage());
+			                : configuration.getPolicyBundleID(), configuration.getImage(), carbonetesAPI.getBundleName());
 
 			run.addAction(carbonetesAction);
 
@@ -253,7 +253,7 @@ public class CarbonetesBuilder extends Builder implements SimpleBuildStep {
 				        carbonetesAPI.getSecretsAnalysisResult(), carbonetesAPI.getGateAction(),
 				        carbonetesAPI.getFullTag(),
 				        Strings.isNullOrEmpty(configuration.getPolicyBundleID()) ? carbonetesAPI.getDefaultBundleUUID()
-				                : configuration.getPolicyBundleID(), configuration.getImage());
+				                : configuration.getPolicyBundleID(), configuration.getImage(), carbonetesAPI.getBundleName());
 
 				run.addAction(carbonetesAction);
 			}
