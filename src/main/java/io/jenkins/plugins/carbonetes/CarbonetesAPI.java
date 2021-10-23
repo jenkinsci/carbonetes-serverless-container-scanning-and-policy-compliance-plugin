@@ -205,8 +205,8 @@ public class CarbonetesAPI extends AbstractAPIWorker {
 	/**
 	 * Get Comprehensive Analysis Result
 	 * 
-	 * @param checkerData
-	 * @throws AbortException
+	 * @param checkerData request body for checking of the result.
+	 * @throws AbortException to mark the build as failed based on the configuration.
 	 */
 	private void getResult(JsonNode checkerData) throws AbortException {
 
