@@ -116,9 +116,10 @@ public class CarbonetesAPI extends AbstractAPIWorker {
 	/**
 	 * Performs Comprehensive Analysis
 	 * 
-	 * @throws Exception
+	 * @throws IOException when the API call encounters problem or the connection was aborted.
+	 * @throws AbortException to mark the build as failed based on the configuration.
 	 */
-	public void performComprehensiveAnalysis() throws IOException {
+	public void performComprehensiveAnalysis() throws IOException, AbortException {
 
 		listener.getLogger().println("Performing Comprehensive Analysis...");
 
