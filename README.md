@@ -1,6 +1,10 @@
 
 [![Carbonetes](https://cdn.carbonetes.com/carbonetes-plugin/assets/branding/branding_header.png)](https://carbonetes.com)
 
+[![Build](https://ci.jenkins.io/job/Plugins/job/carbonetes-serverless-container-scanning-and-policy-compliance-plugin/job/master/badge/icon)](https://ci.jenkins.io/job/Plugins/job/carbonetes-serverless-container-scanning-and-policy-compliance-plugin/job/master/)
+[![Installs](https://img.shields.io/jenkins/plugin/i/carbonetes-serverless-container-scanning-and-policy-compliance)](https://plugins.jenkins.io/carbonetes-serverless-container-scanning-and-policy-compliance)
+[![Version](https://img.shields.io/jenkins/plugin/v/carbonetes-serverless-container-scanning-and-policy-compliance)](https://img.shields.io/jenkins/plugin/v/carbonetes-serverless-container-scanning-and-policy-compliance)
+
 ***
 
 # Table of Contents
