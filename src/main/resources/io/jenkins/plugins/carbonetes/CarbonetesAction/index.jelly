@@ -635,7 +635,7 @@
                         footerProps: {
                             disableItemsPerPage : true
                         },
-                        policyBundleId: ${it.getPolicyBundleId()},
+                        policyBundleId: "${it.getPolicyBundleId()}",
                         bundleName: "${it.getBundleName()}",
                         vulnerabilityResult : ${it.getVulnerabilitiesResult()},
                         scaResult : ${it.getScaResult()},
